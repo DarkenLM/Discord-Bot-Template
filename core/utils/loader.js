@@ -28,7 +28,6 @@ class Loader {
 		}
 
 		logger.success(`[LOADER] [COMMANDS] Successfully loaded Core.`)
-		//logger.info(`[LOADER] Core loading complete.`)
 		return true
 	}
 
@@ -120,7 +119,7 @@ class Loader {
 				"environment": "dev"
 			}
 			if (fs.existsSync('../../config.json')) {
-				let config = require('../../config.json')//require('../libraries/config')
+				let config = require('../../config.json')
 
 				for (let [key, value] of Object.entries(defaultConfig)) {
 					if (config.hasOwnProperty(key)) {
@@ -191,7 +190,6 @@ class Loader {
 				}
 			})
 			logger.success(`[LOADER] [COMMANDS] Successfully loaded Bases.`)
-			//logger.info(`[LOADER] [BASES] Bases loaded.`)
 		} catch (e) {
 			logger.error(`[LOADER] [MODULES] Error while loading modules:`, e)
 		}
@@ -217,7 +215,7 @@ class Loader {
 			logger.success(`[LOADER] [MODULES] Successfully loaded Core Modules.`)
 			logger.info(`[LOADER] [MODULES] Loading Plugin Modules...`)
 
-			let modules = readdirSync(path.join(__dirname, "../../plugins/modules"))//.forEach(async module => {
+			let modules = readdirSync(path.join(__dirname, "../../plugins/modules"))
 			for (let module of modules) {
 				try {
 					const baseClass = require(path.join(__dirname, "../../plugins/modules", module))
@@ -241,11 +239,9 @@ class Loader {
 					} else {
 						logger.error(`[LOADER] [COMMANDS] Error while loading ${Class.declarations.name}: Invalid structure.`);
 					}
-					//logger.info(`[LOADER] [MODULES] ${Class.declarations.name} successfuly loaded.`)
 				} catch (e) {
 					logger.error(`[LOADER] [MODULES] Error while loading ${module}:`, e)
 				}
-			//})
 			}
 
 			function loadUnloadedModules() {
@@ -279,7 +275,6 @@ class Loader {
 							} catch (e) {
 								logger.error(`[LOADER] [MODULES] Error while loading ${Class.declarations.name}:`, e)
 							}
-						//})
 						}
 
 						if (unloaded.length == 0) return resolve()
@@ -319,7 +314,7 @@ class Loader {
 		}
 		async function loadEventTree(Dir) {
 			return new Promise(async (resolve, reject) => {
-				const evtFiles = await readdir(path.join(__dirname, Dir))//'../events'
+				const evtFiles = await readdir(path.join(__dirname, Dir))
 
 				evtFiles.forEach(evt => {
 					const eventName = evt.split('.')[0]
@@ -368,11 +363,10 @@ class Loader {
 					const commands = readdirSync(`${dir}${path.sep}${dirs}${path.sep}`).filter(files => files.endsWith(".js"));
 					for (const file of commands) {
 						logger.info(`[LOADER] [COMMANDS] Loading ${file}...`)
-						//const pull = require(`${dir}/${dirs}/${file}`);
 						const filePull = require(`${dir}/${dirs}/${file}`);
 						let pull = new filePull()
 						pull._setFilePath(`${dir}${path.sep}${dirs}${path.sep}${file}`)
-						if (pull.validateStructure()) { //if (pull.command && typeof (pull.command.name) === "string" && typeof (pull.command.category) === "string") {
+						if (pull.validateStructure()) {
 							if (bot.commands.get(pull.command.name)) return logger.warn(`[LOADER] [COMMANDS] Multiple commands have the same name: ${pull.command.name}.`);
 							bot.commands.set(pull.command.name, pull);
 							logger.success(`[LOADER] [COMMANDS] ${pull.command.name} successfully loaded.`);
@@ -380,12 +374,8 @@ class Loader {
 							logger.error(`[LOADER] [COMMANDS] Error while loading ${pull.command.name}: Invalid structure.`);
 							continue;
 						}
-						/* else {
-						    logger.error(`[LOADER] [COMMANDS] Error while loading ${dir}${dirs}: missing or non-string command.name and/or command.category.`);
-						    continue;
-						}*/
 
-						if (Array.isArray(pull.command?.aliases)) { //typeof (pull.command?.aliases) === "object"
+						if (Array.isArray(pull.command?.aliases)) {
 							pull.command.aliases.forEach(alias => {
 								if (bot.aliases.get(alias)) return logger.warn(`[LOADER] [COMMANDS] Multiple commands have the same alias: ${alias}`);
 								bot.aliases.set(alias, pull.command.name);
@@ -403,7 +393,6 @@ class Loader {
 				};
 			} catch (e) {
 				throw `[COMMANDS] Error while loading commands: ${e.message}\n${e.stack}`
-				//logger.error(`[LOADER] [COMMANDS] Error while loading commands: `, e)
 			}
 		}
 
@@ -429,15 +418,6 @@ class Loader {
 
 		if (bot.commands) await bot.modules.registerers.interactions()
 		else logger.warn(`[LOADER] [INTERACTIONS] Could not initialize interactions because there is no commands available.`)
-
-		// logger.info(`[LOADER] [INTERACTIONS] Registering interactions' permissions...`)
-		// let permreg = await bot.modules.registerers.permLevels()
-
-		// if (permreg) logger.success(`[LOADER] [INTERACTIONS] Interactions' permissions successfully registered.`)
-		// else {
-		// 	logger.error(`[LOADER] [INTERACTIONS] Could not load Permissions. Shutting down.`)
-		// 	process.exit(1)
-		// }
 
 		logger.success(`[LOADER] [COMMANDS] Successfully loaded Interactions.`)
 	}

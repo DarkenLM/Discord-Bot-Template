@@ -8,7 +8,7 @@ class command extends Command {
             short: "Get the list of commands.",
             long: "Get the list of commands or information about a specific command."
         }
-        //this.command.category = ""
+        
         this.command.arguments = [
             {
                 type: "STRING", 

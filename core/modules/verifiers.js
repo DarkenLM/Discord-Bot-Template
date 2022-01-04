@@ -27,7 +27,6 @@ class Module extends _Module {
 
 				let tokenStats = bot.modules.parsers.permToken(userToken.token)
 
-				//return parseInt(tokenStats.data.level)
 				tempPerm = parseInt(tokenStats.data.level)
 			}
 
@@ -35,12 +34,8 @@ class Module extends _Module {
 				if (tempPerm < level) tempPerm = level
 			}
 
-			//if (bot.config?.permissions.overrides && bot.config?.permissions?.overrides[message.author.id]) setOrDropPL(bot.config?.permissions?.overrides[message.author.id])//return bot.config?.permissions?.overrides[message.author.id]
 			if (bot.config.permissions.owners.includes(message.author.id)) setOrDropPL(100)//return 100;
 			if (bot.config.permissions.developers.includes(message.author.id)) setOrDropPL(99)//return 99;
-			//if (message.member.roles.cache.has(bot.config?.permissions?.roles?.administrator)) setOrDropPL(10)//return 10;
-			//if (message.member.roles.cache.has(bot.config?.permissions?.roles?.supermod)) setOrDropPL(9)//return 9;
-			//if (message.member.roles.cache.has(bot.config?.permissions?.roles?.moderator)) setOrDropPL(8)//return 8;
 			if (bot.config.permissions.users[message.author.id]) setOrDropPL(bot.config.permissions.users[message.author.id])
 
 			for (let _role of message.member.roles.cache[Symbol.iterator]()) {
@@ -51,7 +46,7 @@ class Module extends _Module {
 
 			if (bot.config.permissions.overrides.users.hasOwnProperty(message.author.id)) tempPerm = bot.config.permissions.overrides.users[message.author.id]
 
-			return tempPerm//0
+			return tempPerm
 		} catch (e) {
 			logger.error(`[PARSERS] [PERMLEVEL] Error while determining permission level:`, e);
 			logger.error(`[PARSERS] [PERMLEVEL] Defaulting permission to 0.`);
@@ -65,16 +60,13 @@ class Module extends _Module {
 		let userToken = await dbTable.get(`${userID}.global`)
 		if (userToken) {
 			let tokenVer = bot.modules.parsers.permToken(userToken.token)
-			//console.log(tokenVer)
 			switch (tokenVer.data.type) {
 				case 'UBOT': {
-					//console.log('ubot', userToken.uses < tokenVer.data.uses)
 					if (userToken.uses < tokenVer.data.uses) return { valid: true }
 					else return { valid: false }
 					break;
 				}
 				case 'TOPT': {
-					//console.log('topt', parseInt(tokenVer.data.iat) + parseInt(tokenVer.data.exp) >= Date.now())
 					if (parseInt(tokenVer.data.iat) + parseInt(tokenVer.data.exp) >= Date.now()) return { valid: true }
 					else return { valid: false }
 					break;
@@ -85,15 +77,11 @@ class Module extends _Module {
 
 	/* Registry Command Arguments */
 	async rcArguments(Command) {
-		//let required = bot.modules.objects.getNested(args, 'required')
-		//console.log(JSON.stringify(required, null, 2))
 		return new Promise(async (resolve, reject) => {
 			async function iterateArguments(command, types) {
 				let lastRequired = null
-				//console.log(command)
 				for (let i in command.arguments) {
 					let arg = command.arguments[i]
-					//console.log('ARG', arg)
 					switch (arg.type) {
 						case 'SUBCOMMAND_GROUP': {
 							if (types?.subCommandGroup) {
@@ -135,7 +123,6 @@ class Module extends _Module {
 			}
 
 			let res = await iterateArguments(Command)
-			//console.log(res)
 			resolve(res)
 		})
 	}

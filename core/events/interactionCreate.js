@@ -3,7 +3,6 @@ const path = require('path');
 const fs = require("fs");
 
 module.exports = async (bot, interaction) => {
-    //console.log(interaction)
     if (!interaction.isCommand()) return;
 
     const cmd = bot.commands.get(interaction.commandName);
@@ -31,9 +30,6 @@ module.exports = async (bot, interaction) => {
         let dbTable = await bot.modules.db.tables.get('Tokens')
         let userToken = await dbTable.get(`${message.author.id}.global`)
 
-        //console.log(userToken)
-
-        //console.log('INTERACTION: ', level, isEnabled)
         if (isEnabled) {
             if (level >= cmd.command.permlevel) {
                 logger.warn(`[EVENTS] [IC] ${message.author.tag} executed the command ${cmd.command.name}`)
@@ -44,11 +40,10 @@ module.exports = async (bot, interaction) => {
 					function genReport() {
 						let reportID = bot.modules.generators.makeID(6)
 						let reportPath = path.join(__dirname, "../../logs/error_reports", `${reportID}.md`)
-						// console.log(reportPath)
+
 						if (fs.existsSync(reportPath)) {
 							genReport()
 						} else {
-							// console.log(cmd.getFilePath())
 							let cmdFile = fs.readFileSync(cmd.getFilePath())
 							let data = [
 								`# Error Report`,
@@ -111,11 +106,10 @@ module.exports = async (bot, interaction) => {
 					function genReport() {
 						let reportID = bot.modules.generators.makeID(6)
 						let reportPath = path.join(__dirname, "../../logs/error_reports", `${reportID}.md`)
-						// console.log(reportPath)
+
 						if (fs.existsSync(reportPath)) {
 							genReport()
 						} else {
-							// console.log(cmd.getFilePath())
 							let cmdFile = fs.readFileSync(cmd.getFilePath())
 							let data = [
 								`# Error Report`,
@@ -170,7 +164,6 @@ module.exports = async (bot, interaction) => {
                 })
             }
         }
-        //await command.executeInteraction(bot, interaction);
     } catch (error) {
         logger.error(`[EVENTS] [IC] Error while running ${interaction.commandName}:`, error);
         await interaction.followUp({

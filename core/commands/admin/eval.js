@@ -11,16 +11,8 @@ class command extends Command {
             short: "Manually execute code on the bot's process.",
             long: "Manually execute code on the bot's process.\n**WARNING:** This command runs arbitrary code. Any changes the code does are ***FINAL***."
         }
-        //this.command.category = ""
-        this.command.arguments = [
-            // { 
-            //     type: 'STRING', 
-            //     name: "code", 
-            //     description: "The code to be executed.", 
-            //     required: true,
-            //     messageOnly: true
-            // }
-        ]
+
+        this.command.arguments = []
         this.command.aliases = ["evaluate"]
         this.command.permlevel = 100
     }
@@ -38,7 +30,7 @@ class command extends Command {
                 str = str.substring(0, 1800)
                 str = str + "[...]"
             }
-            message.react("912664654021554176");
+            message.react("✅");
             message.channel.send({
                 embeds: [
                     {
@@ -56,7 +48,6 @@ class command extends Command {
                 ]
             });
         } catch (err) {
-            console.log(err)
             message.react("❌");
             message.channel.send({
                 embeds: [

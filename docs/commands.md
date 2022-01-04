@@ -4,23 +4,17 @@
     padding: 0 5px;
     background-color: #282828;
     width: 100%;
-    /* display: inline;
-    width: 100%;
-    height: 100%; */
   }
 
   .container {
     width:100%;
-    /* height:200px; */
   }
   .left {
       width:auto;
-      /* height:200px; */
       background:#282828;
       overflow:hidden;
   }
   .right {
-      /* height:200px; */
       width:auto;
       background:transparent;
       float:left;
@@ -31,37 +25,6 @@
 # Syntax
 
 All commands should follow this template:
-
-<!-- ```js
-const Discord = require("discord.js");
-
-module.exports.execute = async (bot, message, args) => {
-
-}
-
-module.exports.executeInteraction = async (bot, interaction) => {
-
-}
-
-module.exports.command = {
-    name: "",
-    description: {
-        short: "",
-        get long() { return this.short }
-    },
-    arguments: [
-        {
-            type: 'TYPE_OF_ARGUMENT', 
-            name: "NAME_OF_ARGUMENT", 
-            description: "DESCRIPTION_OF_ARGUMENT", 
-            required: true,
-            messageOnly: false
-        }
-    ],
-    category: "",
-    permlevel: 1
-}
-``` -->
 
 ```js
 const Command = bot.bases.commands

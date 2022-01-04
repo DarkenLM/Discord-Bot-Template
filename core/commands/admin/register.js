@@ -32,7 +32,6 @@ class command extends Command {
     }
 
     async execute(bot, message, args) {
-        console.log(args)
         let subCommand = args.getSubcommand()
 
         switch (subCommand) {

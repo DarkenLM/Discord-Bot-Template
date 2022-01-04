@@ -27,12 +27,7 @@ class Module extends _Module {
    */
 
   async permLevels() {
-    let permissions = {
-      //users: [],
-      //roles: [],
-      //levels: [],
-      //unitary: []
-    }
+    let permissions = {}
 
     let origin = bot.config.permissions
     let _keys = []
@@ -206,7 +201,7 @@ class Module extends _Module {
     }
 
     if (permissions.owners.length == 0) {
-      let perm = bot.modules.generators.permissions.topt(Object.entries(permissions.levels).sort(([keyA, valueA], [keyB, valueB]) => valueB - valueA)[0][1], '1h')//.ubot(10, 10)
+      let perm = bot.modules.generators.permissions.topt(Object.entries(permissions.levels).sort(([keyA, valueA], [keyB, valueB]) => valueB - valueA)[0][1], '1h')
       if (perm) {
         logger.success(`[TOKEN] Permission Token for LEVEL 10: ${perm}\nUse '/permtoken set <token>'' to activate the Token\nWARNING: DO NOT SEND THIS TOKEN TO ANYONE! THIS TOKEN GRANTS OWNER PERM LEVEL TO ANY USER!`)
       } else {
@@ -218,48 +213,6 @@ class Module extends _Module {
     bot.config.permissions = permissions
     delete bot.temp.permLevels
     return true
-
-    //console.log(bot.constants.keyMap.get(bot.constants['1ca7140650b31d8ecd02a2a64911dc9c06e9c3fd']))
-
-    /*if (bot.config?.permissions?.levels && (bot.config?.permissions?.users || bot.config?.permissions?.roles || bot.config?.permissions?.unitary)) {
-      if (typeof(bot.config.permissions) !== "object") {
-        logger.error(`[REGISTERERS] [PERM] Error while loading permissions: Invalid data type for PERMISSIONS configuration: '${bot.config.permissions}' (expected 'object')`)
-        return null
-      }
-    } else {
-      logger.warn(`[REGISTERERS] [PERM] No valid PERMISSIONS config found. Using default values.`)
-
-      /*permissions.levels = [
-        { level: 100, label: 'Owner' },
-        { level: 99, label: 'Developer' },
-        { level: 10, label: 'Admin' },
-        { level: 9, label: 'Super Moderator' },
-        { level: 8, label: 'Moderator' },
-        { level: 0, label: 'User' },
-      ]* /
-
-      permissions.levels = {
-        "Owner": 100,
-        "Developer": 99,
-        "Admin": 10,
-        "Super Moderator": 9,
-        "Moderator": 8,
-        "User": 0
-      }
-
-      bot.temp = {
-        permLevels: permissions.levels
-      }
-
-      let perm = bot.modules.generators.permissions.topt(100, '1h')//.ubot(10, 10)
-      if (perm) {
-        logger.success(`[TOKEN] Permission Token for LEVEL 10: ${perm}\nUse '/permtoken set <token>'' to activate the Token\nWARNING: DO NOT SEND THIS TOKEN TO ANYONE! THIS TOKEN GRANTS OWNER PERM LEVEL TO ANY USER!`)
-      } else {
-        logger.error(`[REGISTERERS] [PERM] Failed to register permissions:`, e)
-      }
-
-      delete bot.temp.permLevels
-    }*/
   }
 
   /**
@@ -307,20 +260,6 @@ class Module extends _Module {
     } catch (e) {
       logger.error(`[REGISTERERS] [INT] Error while registering interactions:`, e)
     }
-
-    //logger.info(`[REGISTERERS] [INT] Registering integrations' permissions...`)
-
-    //await this._registerPermissions(commands)
-
-    /*let commands = await bot.aplication.commands.fetch()
-    const iterator2 = commands[Symbol.iterator]();
-    for (let iter in iterator2) {
-      let command = iter[1]
-
-      if (permissions[command.id]) {
-
-      }
-    }*/
   }
 
   /**
@@ -338,15 +277,12 @@ class Module extends _Module {
     let commands = bot.commands
     let interactions = await bot.application.commands.fetch()
 
-    //let stop = false
     let control = {
       hasInternal: false
     }  
 
     const iterator = commands[Symbol.iterator]();
     for (let iter in iterator) {
-      //if (stop) return null;
-
       let command = iter[1]
       let interaction = interactions.filter(i => i.name === command.command.name)[0]
 
@@ -360,62 +296,51 @@ class Module extends _Module {
             case 'internal': {
               if (!permission.id || !permission.type || !permission.hasOwnProperty('permission')) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} invalid permission error: Missing ID, TYPE or PERMISSION properties.`)
-                return null;//stop = true
-                //break;
+                return null;
               }
 
               if (!bot.modules.parsers.permLevels(permission.level, true)) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} has an invalid internal permLevel: ${permission.level}`)
-                return null;//stop = true
-                //break;
+                return null;
               }
               control.hasInternal = true
               break;
-              /*if (control.hasInternal) {
-                logger.warn(`[REGISTERS] [RI] ${command.command.name} has more than one internal`)
-              }*/
             }
             case 'user': {
               if (!permission.id || !permission.type || !permission.hasOwnProperty('permission')) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} invalid permission error: Missing ID, TYPE or PERMISSION properties.`)
-                return null;//stop = true
-                //break;
+                return null;
               }
 
               if (control.hasInternal) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} incompatibility error: Cannot add USER permission over INTERNAL.`)
-                return null;//stop = true
-                //break;
+                return null;
               }
 
               let userRegex = /^(?:<@!?)?(\d{17,21})>?$/gm
               let sfRegex = /^(\d{17,21})$/gm
               if (!userRegex.test(permission.id) || !sfRegex.test(permission.id)) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} has an invalid user id: ${permission.id}`)
-                return null;//stop = true
-                //break;
+                return null;
               }
               break;
             }
             case 'role': {
               if (!permission.id || !permission.type || !permission.hasOwnProperty('permission')) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} invalid permission error: Missing ID, TYPE or PERMISSION properties.`)
-                return null;//stop = true
-                //break;
+                return null;
               }
 
               if (control.hasInternal) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} incompatibility error: Cannot add ROLE permission over INTERNAL.`)
-                return null;//stop = true
-                //break;
+                return null;
               }
 
               let roleRegex = /^(?:<@&)?(\d{17,21})>?$/gm
               let sfRegex = /^(\d{17,21})$/gm
               if (!roleRegex.test(permission.id) || !sfRegex.test(permission.id)) {
                 logger.warn(`[REGISTERS] [RP] ${command.command.name} has an invalid role id: ${permission.id}`)
-                return null;//stop = true
-                //break;
+                return null;
               }
               break;
             }
@@ -435,21 +360,16 @@ class Module extends _Module {
    * @returns {null} 
    */
    _registerInteraction(Command) {
-    //console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
     let slashCommand = new SlashCommandBuilder()
     .setName(Command.name)
     .setDescription(Command.description.short || 'No description provided.')
 
-    //console.log('SCB', slashCommand)
-
     let stop = false
 
     function registerArguments(interactionPart, command, types) {
-      //console.log(arguments)
       if (command.arguments) {
         for (let arg of command.arguments) {
           if (arg?.messageOnly) continue;
-          //console.log(arg)
           switch (arg.type) {
             case 'SUB_COMMAND_GROUP': {
               if (types?.subCommandGroup) {
@@ -462,9 +382,6 @@ class Module extends _Module {
                 .setName(arg.name)
                 .setDescription(arg.description)
 
-                /*arg.subCommands.forEach(subCommand => {
-                  registerArguments(group, subCommand, { subCommandGroup: true })
-                })*/
                 registerArguments(group, {arguments: arg.subCommands}, { subCommandGroup: true })
 
                 return group
@@ -482,10 +399,6 @@ class Module extends _Module {
                 .setName(arg.name)
                 .setDescription(arg.description)
 
-                /*for (let subArg of arg.arguments) {
-                  registerArguments(option, subArg, { subCommand: true })
-                }*/
-                //console.log(arg)
                 registerArguments(option, arg, { subCommand: true })
 
                 return option
@@ -493,7 +406,6 @@ class Module extends _Module {
               break;
             }
             case 'STRING': {
-              //console.log('ADDED1', integrationPart)
               if (arg?.choices?.length > 0) {
                 interactionPart.addStringOption(option => {
                   option
@@ -601,7 +513,6 @@ class Module extends _Module {
 
     registerArguments(slashCommand, Command)
 
-    //console.log(JSON.stringify(slashCommand, null, 4))
     if (stop) return false
     else return slashCommand.toJSON()
   }

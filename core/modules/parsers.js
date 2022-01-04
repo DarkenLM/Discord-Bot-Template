@@ -203,19 +203,6 @@ class Module extends _Module {
 
     /* Permlevel */
     permLevels(level, api) {
-        /*let permlevels = {
-            100: 'Owner',
-            99: 'Developer',
-            10: 'Admin',
-            9: 'Super Moderator',
-            8: 'Moderator',
-            0: 'User'
-        }*/
-        // console.log(bot.config.permissions.levels)
-        // console.log(Object.entries(bot.config.permissions.levels))
-        // console.log(Object.entries(bot.config.permissions.levels).filter(([key, value]) => value === level)[0])
-        // console.log(Object.entries(bot.config.permissions.levels).filter(([key, value]) => value === level)[0][0])
-        // console.log(Object.entries(bot.config.permissions.levels).filter(([key, value]) => value === level)[0][0] || (api ? null : 'Not registered'))
         return Object.entries(bot.config.permissions.levels).filter(([key, value]) => value === level)[0][0] || (api ? null : 'Not registered')
     }
 
@@ -285,7 +272,6 @@ class Module extends _Module {
                         let obj = { type: 'UBOT', level: variables.l, uses: variables.u }
 
                         if (variables.c) obj.command = variables.c
-                        //if (variables.u) obj.user = variables.c
 
                         return { success: true, data: obj }
                     } else {
@@ -299,7 +285,6 @@ class Module extends _Module {
                         let obj = { type: 'TOPT', level: variables.l, exp: variables.e, iat: timestamp }
 
                         if (variables.c) obj.command = variables.c
-                        //if (variables.u) obj.user = variables.c
 
                         return { success: true, data: obj }
                     } else {
@@ -313,192 +298,13 @@ class Module extends _Module {
                     return { error: `Invalid Token` }
                 }
             }
- 
-            //return decrypted
         } catch (e) {
             logger.error(`[PARSERS] [PERMTOKEN] Unable to decrypt Token:`, e)
             return {error: e.message}
         }
-        //console.log(uuid_v4, uuid, iv.join(""), encrypted, Buffer.from(decrypted, 'base64').toString('utf-8'))
     }
 
     /* Arguments */
-    // arguments(args, command) {
-    //     let storedI = -1,
-    //         isSubCommand = false,
-    //         subCommandFound = false,
-    //         failedArg = null
-    //     function nextArg(args) {
-    //         console.log(storedI)
-    //         storedI++
-    //         console.log(args)
-    //         if (args[storedI]) return args[storedI]
-    //         else return false
-    //     }
-
-    //     function iterateArguments(cmdArgs, args) {
-    //         //console.log('-----')
-            
-    //         for (let i in cmdArgs) {
-    //             let cmdArg = cmdArgs[i]
-    //             //if (cmdArg.type !== "subCommand") storedI = parseInt(i)
-
-    //             //console.log('COMMAND', cmdArg)
-    //             let arg //= args[storedI]
-    //             if (cmdArg.type === "subCommand") {
-    //                 if (storedI < 0) storedI++
-    //                 arg = args[storedI]
-    //                 console.log('SC_ARG', arg)
-    //             } else {
-    //                 arg = nextArg(args)
-    //                 console.log('NEXTARG', arg)
-    //             }
-    //             console.log('ARGUMENT', arg)
-
-    //             if (!arg) {
-    //                 if (cmdArg.required || cmdArg.type === "subCommandGroup") {
-    //                     //console.log('req')
-    //                     if (cmdArg.type !== "subCommand") return `Missing required argument: ${cmdArg.name}`
-    //                 } else {
-    //                     continue;
-    //                     //console.log('not req')
-    //                 }
-    //             }
-    //             /*if (args[i]) {
-    //                 arg = args[i]
-    //                 console.log(arg)
-    //             } else {
-    //                 console.log('No arg')
-    //                 if (cmdArg.required) {
-    //                     console.log('req')
-    //                     if (cmdArg.type !== "subCommand") return `Missing required argument: ${cmdArg.name}`
-    //                 } else {
-    //                     console.log('not req')
-    //                 }
-    //             }*/
-                
-
-    //             switch (cmdArg.type) {
-    //                 case 'subCommandGroup': {
-    //                     if (typeof(arg) === 'string') {
-    //                         if (arg === cmdArg.name) {
-    //                             let newArg = nextArg(args)
-    //                             if (newArg) {
-    //                                 if (typeof(newArg) === 'string') {
-    //                                     let subCmd = cmdArg.subCommands.filter(c => c.name === newArg)[0]
-    //                                     if (subCmd) {
-    //                                         let oldStoredI = storedI
-    //                                         let newarr = args.slice(storedI + 1)
-    //                                         //console.log(newarr)
-    //                                         let res = iterateArguments(subCmd.arguments, newarr)
-    //                                         if (!res) return false
-    //                                         else {
-    //                                             storedI = oldStoredI
-    //                                             if (typeof(res) === 'string') return res; else continue;
-    //                                         }
-    //                                     } else return `Missing required subcommand. Expected one of the following values: ${new Intl.ListFormat('en-US', { style: 'short', type: 'disjunction' }).format(cmdArg.subCommands.map(c => c.name))}`
-    //                                 } else return `Invalid type for ${cmdArg.name}'s subcommand: '${['undefined', 'null'].includes(typeof(newArg)) ? "none" : typeof(arg)}' (Expected 'string')`
-    //                             } else return `Missing required subcommand name for ${cmdArg.name}`
-    //                         } else return `Invalid argument name: '${arg}' (Expected '${cmdArg.name}')`
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'string')`
-    //                     break;
-    //                 }
-    //                 case 'subCommand': {
-    //                     isSubCommand = true
-    //                     failedArg = arg
-    //                     //console.log('SUBCOMMAND', cmdArg.name)
-    //                     //console.log('ARG', arg)
-    //                     if (typeof(arg) === 'string') {
-    //                         if (arg === cmdArg.name) {
-    //                             subCommandFound = true
-    //                             if (cmdArg.arguments) {
-    //                                 let res = iterateArguments(cmdArg.arguments, args.slice(storedI))
-    //                                 if (!res) return false; else {
-    //                                     if (typeof(res) === 'string') return res; else continue;
-    //                                 } 
-    //                             } else return true
-    //                         }// else return `Invalid argument name: '${arg}' (Expected '${cmdArg.name}')`
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'string')`
-    //                     break;
-    //                 }
-    //                 case 'string': {
-    //                     if (typeof(arg) === 'string') {
-    //                         if (command.arguments[storedI].choices.length > 0) {
-    //                             if (command.arguments[storedI].choices.some(c => c.value === arg)) continue
-    //                             else return `Invalid choice for argument ${cmdArg.name}: '${arg}' (Expected '${new Intl.ListFormat('en-US', { style: 'short', type: 'disjunction' }).format(command.arguments[storedI].choices.map(c => c.value))}')`
-    //                         }
-    //                         continue
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'string')`
-    //                     break;
-    //                 }
-    //                 case 'integer': {
-    //                     if (typeof(arg) === 'number' || !isNaN(arg)) {
-    //                         continue
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'integer')`
-    //                     break;
-    //                 }
-    //                 case 'boolean': {
-    //                     if (typeof(arg) === 'boolean') {
-    //                         continue
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'boolean')`
-    //                     break;
-    //                 }
-    //                 case 'user': {
-    //                     if (typeof(arg) === 'string') {
-    //                         let userRegex = /^(?:<@!?)?(\d{17,21})>?$/gm
-    //                         let sfRegex = /^(\d{17,21})$/gm
-
-    //                         if (userRegex.test(arg) || sfRegex.test(arg)) {
-    //                           continue  
-    //                         } else return `Invalid argument '${arg}': Not a valid 'userID' or 'userMention'`
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'userID' or 'userMention')`
-    //                     break;
-    //                 }
-    //                 case 'channel': {
-    //                     if (typeof(arg) === 'string') {
-    //                         let channelRegex = /^(?:<#)?(\d{17,21})>?$/gm
-    //                         let sfRegex = /^(\d{17,21})$/gm
-
-    //                         if (channelRegex.test(arg) || sfRegex.test(arg)) {
-    //                           continue  
-    //                         } else return `Invalid argument '${arg}': Not a valid 'channelID' or 'channelMention'`
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'channelID' or 'channelMention')`
-    //                     break;
-    //                 }
-    //                 case 'role': {
-    //                     if (typeof(arg) === 'string') {
-    //                         let roleRegex = /^(?:<@&)?(\d{17,21})>?$/gm
-    //                         let sfRegex = /^(\d{17,21})$/gm
-
-    //                         if (roleRegex.test(arg) || sfRegex.test(arg)) {
-    //                           continue  
-    //                         } else return `Invalid argument '${arg}': Not a valid 'roleID' or 'roleMention'`
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'roleID' or 'roleMention')`
-    //                     break;
-    //                 }
-    //                 case 'mentionable': {
-    //                     if (typeof(arg) === 'string') {
-    //                         let userRegex = /^(?:<@!?)?(\d{17,21})>?$/gm
-    //                         let roleRegex = /^(?:<@&)?(\d{17,21})>?$/gm
-    //                         let sfRegex = /^(\d{17,21})$/gm
-
-    //                         if (roleRegex.test(arg) || userRegex.test(arg) || sfRegex.test(arg)) {
-    //                           continue  
-    //                         } else return `Invalid argument '${arg}': Not a valid 'mentionable'`
-    //                     } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'mentionable')`
-    //                     break;
-    //                 }
-    //             }
-    //         }
-
-    //         if (isSubCommand && !subCommandFound) return `No subcommand found with name: \`${failedArg}\`.`
-    //         return true
-    //     }
-
-    //     let res = iterateArguments(command.arguments, args)
-    //     return res
-    // }
-
     async messageArguments(message, Arguments, command) {
         let _args = {}
 
@@ -516,18 +322,12 @@ class Module extends _Module {
         }
 
         function incrementIndex(index) {
-            //console.log('increment index', new Error().stack)
             indexes[index]++;
-            /*if (indexes[index]) {
-                indexes[index]++;
-            }*/
         }
 
-        let IArg // Index of Current Argument // = indexes[0] 
+        let IArg // Index of Current Argument
 
         function peek(args, arg) {
-            //console.log(index, indexes[index], arg)
-            //return args[indexes[index]][arg] || null
             return args[arg]
         }
 
@@ -547,10 +347,6 @@ class Module extends _Module {
                 
                 let arg = args[IArg]
                 let isRequired = cmdArg.type === "SUB_COMMAND_GROUP" ? true : cmdArg.required
-
-                // console.log("CMDARG:", cmdArg)
-                // console.log("ARGS", args)
-                // console.log("ARG", arg)
 
                 if (indexData[index].hasSubCommandGroup && cmdArg.type !== "SUB_COMMAND_GROUP" && !indexData[index].subCommandGroupFound) return `No SubCommand Group found with name: \`${arg}\`.`
                 if (indexData[index].hasSubCommand && cmdArg.type !== "subCommand" && !indexData[index].subCommandFound) return `1 No SubCommand found with name: \`${arg}\`.`
@@ -576,8 +372,6 @@ class Module extends _Module {
                                 type: "STRING",
                                 value: arg
                             }
-                            // incrementIndex(index)
-                            //continue;
                         } else return `Invalid type for argument \`${cmdArg.name}\`: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'string')`
                         break;
                     }
@@ -598,8 +392,6 @@ class Module extends _Module {
                                 type: "INTEGER",
                                 value: parseInt(arg)
                             }
-                            //incrementIndex(index)
-                            //continue;
                         } else return `Invalid type for argument \`${cmdArg.name}\`: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'integer')`
                         break;
                     }
@@ -611,23 +403,16 @@ class Module extends _Module {
                                 type: "NUMBER",
                                 value: parseFloat(arg)
                             }
-                            //continue;
-                            //incrementIndex(index)
+
                         } else return `Invalid type for argument \`${cmdArg.name}\`: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'integer')`
                         break;
                     }
                     case 'BOOLEAN': {
-                        // console.log(arg)
-                        // console.log(typeof(arg), typeof(arg) == "boolean")
-                        // console.log(typeof(arg) == "string", ["true", "false"].includes(arg.toLowerCase()), ( typeof(arg) == "string" && ["true", "false"].includes(arg.toLowerCase()) ))
-                        // console.log(typeof(arg) == "boolean" || ( typeof(arg) == "string" && ["true", "false"].includes(arg.toLowerCase()) ))
                         if (typeof(arg) == "boolean" || ( typeof(arg) == "string" && ["true", "false"].includes(arg.toLowerCase()) ) ) {
                             _args[cmdArg.name] = {
                                 type: "BOOLEAN",
                                 value: { true: true, false: false }[arg.toLowerCase()]
                             }
-                            //continue;
-                            //incrementIndex(index)
                         } else return `Invalid type for argument \`${cmdArg.name}\`: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'boolean')`
                         break;
                     }
@@ -700,13 +485,10 @@ class Module extends _Module {
                                     value: arg
                                 }
                                 if (cmdArg?.subCommands?.length > 0) {
-                                    let subCmdArg = peek(args, IArg + 1)//peek(args, index, IArg + 1)
-
-                                    console.log(args, IArg, subCmdArg)
+                                    let subCmdArg = peek(args, IArg + 1)
+                                    
                                     if (subCmdArg) {
-                                        // console.log("SCG CMDARG")//console.log('CMDARG: ', cmdArg)
                                         let subCmd = cmdArg.subCommands.find(s => s.name === subCmdArg)
-                                        // console.log("SCG SUBCMD")//console.log('SUBCMD: ', subCmd)
                                         if (subCmd) {
                                             _args[subCmd.name] = {
                                                 type: "SUB_COMMAND",
@@ -714,19 +496,13 @@ class Module extends _Module {
                                             }
                                             let newArgs = args.slice(0)
                                             newArgs.splice(0, IArg + 2)
-                                            // console.log(args, IArg, newArgs, Object.keys(indexes).length)
                                             let res = await iterateArguments(subCmd.arguments, newArgs, Object.keys(indexes).length)
-
-                                            // console.log("SCG RES:", res)
                                             
                                             if (res !== true) {
                                                 return res;
                                             }
                                         } else return `SubCommand Group \`${cmdArg.name}\` requires one of the following SubCommands: \`${new Intl.ListFormat('en-US', { style: 'short', type: 'disjunction' }).format(cmdArg.subCommands.map(s => s.name))}\`, but got \`${subCmdArg}\`.`
                                     } else return `SubCommand Group \`${cmdArg.name}\` requires one of the following SubCommands: \`${new Intl.ListFormat('en-US', { style: 'short', type: 'disjunction' }).format(cmdArg.subCommands.map(s => s.name))}\`, but got \`none\`.`
-                                    //let res = iterateArguments(cmdArg.subCommands, args.slice(0).splice(0, IArg), indexes.length)
-
-                                    //if (res) return res;
                                 }
                             }
                         } else return `Invalid type for argument ${cmdArg.name}: '${['undefined', 'null'].includes(typeof(arg)) ? "none" : typeof(arg)}' (Expected 'string')`
@@ -745,16 +521,9 @@ class Module extends _Module {
                                 if (cmdArg?.arguments?.length > 0) {
                                     let newArgs = args.slice(0)
                                     newArgs.splice(0, IArg + 1)
-                                    // console.log("SC", args, IArg, newArgs, Object.keys(indexes).length)
-                                    // console.log("INDEXDATA", indexData[index])
 
                                     let res = await iterateArguments(cmdArg.arguments, newArgs, Object.keys(indexes).length)
 
-                                    // console.log("SC RES:", res)
-
-                                    /*if (res !== true) {
-                                        return res;
-                                    } else break;*/
                                     return res;
                                 }
                             }
@@ -766,10 +535,6 @@ class Module extends _Module {
                 if (!indexData[index].hasSubCommand && !indexData[index].hasSubCommandGroup) incrementIndex(index);
             }
 
-            console.log(indexData, index)
-            console.log(indexData[index])
-
-            //if (indexData[index].hasSubCommand && !indexData[index].subCommandFound) return `No subcommand found with name: \`${failedArg}\`.`
             if (indexData[index].hasSubCommandGroup && !indexData[index].subCommandGroupFound) return `No SubCommand Group found with name: \`${args.pop()}\`.`
             if (indexData[index].hasSubCommand && !indexData[index].subCommandFound) return `No SubCommand found with name: \`${args.pop()}\`.`
             return true
@@ -777,11 +542,7 @@ class Module extends _Module {
 
         if (command.arguments.length > 0) {
             let parsed = await iterateArguments(command.arguments, Arguments, 0)
-
-            //console.log("ARGS:", _args)
-
             let argMap = new bot.constants.classes.ArgumentMap(_args)
-            //console.log(argMap)
 
             return {
                 validity: parsed,
@@ -802,8 +563,6 @@ class Module extends _Module {
                 argMap
             }
         }
-        
-        //return parsed
     }
 
     /* Enabled Command List */
@@ -826,7 +585,6 @@ class Module extends _Module {
 
             if (typeof(value) !== 'boolean') return false
             if (!cat) file[command.category] = {}
-            //if (!cat || typeof(value) !== 'boolean') return false
 
             file[command.category][command.name] = value
             await db.set('SYSTEM:EnabledCommandList', file)

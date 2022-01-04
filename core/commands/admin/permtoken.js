@@ -41,7 +41,7 @@ class command extends Command {
                         break;
                 }
                 await dbTable.set(`${interaction.user.id}.global`, obj)
-                return interaction.followUp({ embeds: [bot.modules.embed.create(pseudoMessage, `Permission Token bound to your account.\n- Token Type: ${tokenVer.data.type}\n${tokenVer.data.type === 'UBOT' ? `- Permission Level: ${tokenVer.data.level}\n- Uses: ${tokenVer.data.uses}` : `- Permission Level: ${tokenVer.data.level}\n- Expiration Date: <t:${Math.floor( (parseInt(tokenVer.data.iat) + parseInt(tokenVer.data.exp)) / 1000 )}>`}`, 'SUCCESS')], ephemeral: true })//${bot.modules.parsers.formatTime(parseInt(tokenVer.data.iat) + parseInt(tokenVer.data.exp), 'pt', 'LLLL')}
+                return interaction.followUp({ embeds: [bot.modules.embed.create(pseudoMessage, `Permission Token bound to your account.\n- Token Type: ${tokenVer.data.type}\n${tokenVer.data.type === 'UBOT' ? `- Permission Level: ${tokenVer.data.level}\n- Uses: ${tokenVer.data.uses}` : `- Permission Level: ${tokenVer.data.level}\n- Expiration Date: <t:${Math.floor( (parseInt(tokenVer.data.iat) + parseInt(tokenVer.data.exp)) / 1000 )}>`}`, 'SUCCESS')], ephemeral: true })
             } else {
                 return interaction.followUp({ embeds: [bot.modules.embed.create(pseudoMessage, `Invalid Permission Token.`, 'ERROR')], ephemeral: true })
             }

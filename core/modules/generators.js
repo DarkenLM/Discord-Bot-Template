@@ -45,56 +45,6 @@ class Module extends _Module {
      * 
      * @returns {string} The permission token
      */
-    /*_permissions_ubot(snowflake, level, uses, command) {
-        let userRegex = /^(?:<@!?)?(\d{17,21})>?$/gm
-        let roleRegex = /^(?:<@&)?(\d{17,21})>?$/gm
-        let sfRegex = /^(\d{17,21})$/gm
-
-        if (!snowflake || (!roleRegex.test(snowflake) && !userRegex.test(snowflake) && !sfRegex.test(snowflake))) {
-            logger.warn(`[GENERATORS] [PERM] [UBOT] Could not generate Permission Token: SNOWFLAKE is not defined or is not a valid user/mention id.`)
-            return null;
-        }
-
-        if (!level) {
-            logger.warn(`[GENERATORS] [PERM] [UBOT] Could not generate Permission Token: LEVEL is not defined.`)
-            return null;
-        }
-
-        let PermissionToken = ''
-
-        let uuid = this.uuid.v4()
-        let verifiers = uuid.split('-').map(v => v.split("").reverse().join(""))
-        PermissionToken += `${Buffer.from(uuid).toString('base64')}.`
-        PermissionToken += `${Buffer.from(`${verifiers[0]}-${snowflake}`).toString('base64')}.`
-        
-        let isLevelValid = bot.libraries.permissions ? 
-                        bot.libraries.permissions.levels.some(l => l.level === level) : 
-                        (bot.temp.permLevels ? bot.temp.permLevels.some(l => l.level === level) : false)
-        
-        if (!isLevelValid) {
-            logger.warn(`[GENERATORS] [PERM] [UBOT] Could not generate Permission Token: LEVEL is invalid.`)
-            return null;
-        }
-        PermissionToken += `${Buffer.from(`${verifiers[1]}-${level}`).toString('base64')}.`
-
-        if (isNaN(uses)) {
-            logger.warn(`[GENERATORS] [PERM] [UBOT] Could not generate Permission Token: USES is invalid.`)
-            return null;
-        }
-        PermissionToken += `${Buffer.from(`${verifiers[2]}-${uses}`).toString('base64')}`
-
-        if (command) {
-            if (!bot.commands.has(command)) {
-                logger.warn(`[GENERATORS] [PERM] [UBOT] Could not generate Permission Token: COMMAND is invalid.`)
-                return null;
-            }
-
-            PermissionToken += `.${Buffer.from(`${verifiers[3]}-${command}`).toString('base64')}`
-        }
-
-        return PermissionToken
-    }*/
-
     _permissions_ubot(level, uses, command) {
         if (!level) {
             logger.warn(`[GENERATORS] [PERM] [UBOT] Could not generate Permission Token: LEVEL is not defined.`)
@@ -139,18 +89,12 @@ class Module extends _Module {
             count++
             PermissionToken += `${Buffer.from(`${verifiers[count]}-${ivParts[parseInt(ordenator)]}`).toString('base64')}.`
         }
-        /*let count = 0
-        for (let part of ivParts) {
-            count++
-            PermissionToken += `${Buffer.from(`${verifiers[count]}-${part}`).toString('base64')}.`
-        }*/
         
         PermissionToken += `${Buffer.from(`${order.join("")}-${timestamp.toString()}`).toString('base64')}`
-        //PermissionToken += `${Buffer.from(`${verifiers[1]}-${level}`).toString('base64')}.`
 
         function encrypt(text, key) {
             const iv = crypto.randomBytes(16);
-            let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key, 'base64').toString('utf-8'), iv);//Buffer.from(key)
+            let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key, 'base64').toString('utf-8'), iv);
             let encrypted = cipher.update(Buffer.from(text, "utf-8"));
             encrypted = Buffer.concat([encrypted, cipher.final()]);
             return { iv: iv.toString('hex'), encryptedData: encrypted.toString('hex') };

@@ -7,17 +7,6 @@ class Modules {
 			name: name,
 			description: description || ''
 		}
-
-		// this._attachments = []
-
-		/*this._helpers = {
-			isPluginExtension: () => this.declarations.hasOwnProperty("extends"),
-			clone: () => {
-				if (this._helpers.isPluginExtension()) {
-					
-				}
-			}
-		}.bind(this)*/
 	}
 
 	async attach(Class) {
@@ -65,19 +54,6 @@ class Modules {
 			logger.error(`[MODULE] [${this.declarations.name.toUpperCase()}] [ATTACH] Error while attaching: `, e)
 			return false
 		}
-		
-		
-
-		//this[Class.declarations.name] = Class
-		// this._attachments.push({
-		// 	type: (Class.declarations.name === this.declarations.name) ? "master" : "branch",
-		// 	Class
-		// })
-		/*if (Class.declarations.name === this.declarations.name) {
-			this._attachments.push()
-		} else {
-
-		}*/
 	}
 
 	setBaseClass(baseClass) {

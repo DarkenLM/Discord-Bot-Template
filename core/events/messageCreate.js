@@ -3,76 +3,6 @@ const db = require("quick.db");
 const path = require('path');
 const fs = require("fs");
 
-/*module.exports = async (bot, message) => {
-  if (message.author.bot) return;
-  
-  let prefix = bot.config.messageCommands.prefix;
-
-  if (message.channel.type !== "dm") {
-    const prefixMention = new RegExp(`^<@!?${bot.user.id}>( |)$`);
-    if (message.content.match(prefixMention)) {
-      return message.channel.send({ embeds: [bot.modules.embed.create(message, `I'm {INSERT NAME HERE}, a Multi-tool Discord Bot.\n\nCommand List: \`${prefix}help\``, 'PARTIAL_ERROR', {title: `Hello, ${message.author.username}!`})] })
-    }
-  }
-  
-  const _args = message.content.slice(prefix.length).trim().split(/ +/g);
-  const command = _args.shift().toLowerCase();
-
-  const level = await bot.modules.verifiers.permLevel(message);
-
-  const cmd = bot.commands.get(command) || bot.commands.get(bot.aliases.get(command));
-
-  let dbTable = await bot.modules.db.tables.get('Tokens')
-  let userToken = await dbTable.get(`${message.author.id}.global`)
-  
-  if (cmd) {
-    if (![0, 1].includes(cmd.command.restricted)) {
-      logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} attempted to execute the command ${cmd.command.name}, but it was restricted to interaction mode`)
-      message.reply({
-        embeds: [
-          bot.modules.embed.create(message, `Please execute this command as a Slash Command.`, "UNAUTHORIZED")
-        ]
-      })
-
-      return;
-    }
-
-    let isEnabled = await bot.modules.parsers.ecl.get(cmd.command)
-    if (isEnabled) {
-      if (level >= cmd.command.permlevel) {
-        let { validity, argMap } = await bot.modules.parsers.messageArguments(message, _args, cmd.command)
-        if (validity === true) {
-          logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} executed the command ${cmd.command.name}`)
-          await cmd.execute(bot, message, argMap)
-          if (userToken?.type == "UBOT") await dbTable.add(`${userID}.global.uses`, 1)
-        } else {
-          message.reply({ embeds: [ bot.modules.embed.create(message, `${validity}`, 'UNAUTHORIZED') ] })
-          logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} attempted to execute the command ${cmd.command.name} with invalid arguments: ${validity}`)
-        }
-      } else {
-        logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} attempted to execute the command ${cmd.command.name} without valid permission`)
-        message.reply({ embeds: [ bot.modules.embed.create(message, `- Required permission: ${cmd.command.permlevel} (${bot.modules.parsers.permLevels(cmd.command.permlevel)})\n- Current permission: ${level} (${bot.modules.parsers.permLevels(level)})`, 'UNAUTHORIZED') ] })
-      }
-    } else {
-      if (level >= bot.constants.commands.OVERRIDE_MIN_PERM_LEVEL && level >= cmd.command.permlevel) {
-        let areArgsValid = await bot.modules.parsers.messageArguments(message, _args, cmd.command)
-        //console.log(areArgsValid)
-        if (areArgsValid === true) {
-          logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} executed the disabled command ${cmd.command.name}`)
-          await cmd.execute(bot, message, _args)
-          if (userToken?.type == "UBOT") await dbTable.add(`${userID}.global.uses`, 1)
-        } else {
-          message.reply({ embeds: [ bot.modules.embed.create(message, `${areArgsValid}`, 'UNAUTHORIZED') ] })
-          logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} attempted to execute the disabled command ${cmd.command.name} with invalid arguments: ${areArgsValid}`)
-        }
-      } else {
-        logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} attempted to execute the disabled command ${cmd.command.name}`)
-        message.reply({ embeds: [ bot.modules.embed.create(message, `- Required permission: ${bot.constants.commands.OVERRIDE_MIN_PERM_LEVEL > cmd.command.permlevel ? bot.constants.commands.OVERRIDE_MIN_PERM_LEVEL : cmd.command.permlevel} (${bot.modules.parsers.permLevels(bot.constants.commands.OVERRIDE_MIN_PERM_LEVEL > cmd.command.permlevel ? bot.constants.commands.OVERRIDE_MIN_PERM_LEVEL : cmd.command.permlevel)})\n- Current permission: ${level} (${bot.modules.parsers.permLevels(level)})`, 'UNAUTHORIZED') ] })
-      }
-    }
-  }
-};*/
-
 module.exports = async (bot, message) => {
 	if (message.author.bot) return;
 
@@ -123,11 +53,10 @@ module.exports = async (bot, message) => {
 						function genReport() {
 							let reportID = bot.modules.generators.makeID(6)
 							let reportPath = path.join(__dirname, "../../logs/error_reports", `${reportID}.md`)
-							// console.log(reportPath)
+
 							if (fs.existsSync(reportPath)) {
 								genReport()
 							} else {
-								// console.log(cmd.getFilePath())
 								let cmdFile = fs.readFileSync(cmd.getFilePath())
 								let data = [
 									`# Error Report`,
@@ -210,11 +139,10 @@ module.exports = async (bot, message) => {
 						function genReport() {
 							let reportID = bot.modules.generators.makeID(6)
 							let reportPath = path.join(__dirname, "../../logs/error_reports", `${reportID}.md`)
-							// console.log(reportPath)
+							
 							if (fs.existsSync(reportPath)) {
 								genReport()
 							} else {
-								// console.log(cmd.getFilePath())
 								let cmdFile = fs.readFileSync(cmd.getFilePath())
 								let data = [
 									`# Error Report`,

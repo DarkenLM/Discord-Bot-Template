@@ -40,8 +40,6 @@ class Command {
 
         for (let [key, value] of Object.entries(this.command)) {
             if (this.#defaultCommand.hasOwnProperty(key)) {
-                //if (typeof(value) !== typeof(this.#defaultCommand[key])) throw new Error(`Invalid type for command metadata property ${key}: '${typeof(value)}' (Expected '${typeof(this.#defaultCommand[key])}')`)
-                //console.log(key, value)
                 const verifyTypes = function(prop) {
                    switch (prop) {
                         case 'string':
@@ -50,7 +48,6 @@ class Command {
                             return true
                             break;
                         case 'array':
-                            //console.log(value)
                             if (!Array.isArray(value)) throw new Error(`Invalid type for command metadata property ${key}: '${typeof(value)}' (Expected 'array')`)
                             break;
                         default:
@@ -91,15 +88,6 @@ class Command {
                         break;
                     }
                 }
-                /*if (["null", "undefined"].includes(typeof(value))) {
-                    switch (key) {
-                        case 'category': {
-                            break;
-                        }
-                        default:
-                            throw new Error(`Required property is undefined: '${key}'.`)
-                    }
-                }*/
             } else throw new Error(`Unexpected property on command definition: '${key}'.`)
         }
 

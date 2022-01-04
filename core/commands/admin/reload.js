@@ -41,7 +41,6 @@ class command extends Command {
     }
 
     async execute(bot, message, args) {
-        //console.log(args)
         let command = args.getSubcommand(),
             value   = args.getString('command_name') || args.getString('category_name'),
             last    = await db.fetch('SYSTEM:last_reload')
@@ -108,12 +107,6 @@ class command extends Command {
 
                     for (let categoryCmd of categoryCmds) {
                         let cmd = categoryCmd[1]
-                        // let file = `../${value.toLowerCase()}/${cmd.command.name}.js`
-                        // delete require.cache[require.resolve(file)];
-                        // bot.commands.delete(cmd.command.name);
-                        // const pull = require(file);
-                        // bot.commands.set(cmd.command.name, pull);
-                        // reloaded.push(cmd.command.name)
                         for (const [key, value] of bot.aliases.entries()) {
                             if (value === cmd.command.name) bot.aliases.delete(key)
                         }
