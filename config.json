@@ -1,0 +1,47 @@
+{
+    "token": "",
+    "version": "1.0.0",
+    "client": {
+        "id": "",
+        "devServerID": "",
+        "presences": {
+            "production": {
+                "status": "dnd",
+                "activities": [
+                    {
+                        "name": "The world around me.",
+                        "type": "WATCHING",
+                        "url": null
+                    }
+                ]
+            },
+            "maintenance": {
+                "status": "idle",
+                "activities": [
+                    {
+                        "name": "🚧 MAINTENANCE ONGOING 🚧",
+                        "type": "WATCHING",
+                        "url": null
+                    }
+                ]
+            },
+            "interval": "10s"
+        }
+    },
+    "messageCommands": {
+        "prefix": "!"
+    },
+    "permissions": {
+        "levels": {},
+        "roles": {},
+        "users": {},
+        "owners": [],
+        "developers": [],
+        "overrides": {
+            "roles": {},
+            "users": {}
+        }
+    },
+    "maintenance": false,
+    "environment": "dev"
+}
