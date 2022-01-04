@@ -116,14 +116,14 @@ class command extends Command {
                 let level = await bot.modules.verifiers.permLevel(pseudoMessage);
     
                 if (command.command.permlevel > level) {
-                    return interaction.reply({
+                    return interaction.followUp({
                         embeds: [
                             bot.modules.embed.create(pseudoMessage, `Unauthorized.`, "ERROR")
                         ],
                         ephemeral: true
                     })
                 } else {
-                    interaction.reply({
+                    interaction.followUp({
                         embeds: [
                             bot.modules.embed.create(
                                 pseudoMessage, 
@@ -144,7 +144,7 @@ class command extends Command {
                         ephemeral: true
                     })
                 } 
-            } else return interaction.reply({
+            } else return interaction.followUp({
                 embeds: [
                     bot.modules.embed.create(pseudoMessage, `No command found with name or alias \`${cmdName}\``, "ERROR")
                 ],
@@ -170,7 +170,7 @@ class command extends Command {
                 .setThumbnail("https://cdn.discordapp.com/attachments/736163626934861845/742671714386968576/help_animated_x4_1.gif")
                 .setFooter(`Use /help [command] for help in a specific command.`)
             
-            interaction.reply({
+            interaction.followUp({
                 embeds: [
                     embed
                 ]

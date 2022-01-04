@@ -569,6 +569,11 @@ class Module extends _Module {
     async ecl_get(command) {
         try {
             let file = await db.fetch('SYSTEM:EnabledCommandList')
+
+            if (!file) {
+                await db.set('SYSTEM:EnabledCommandList', {})
+            }
+            
             let cat = file[command.category]
 
             if (!cat) return false

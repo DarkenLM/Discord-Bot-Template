@@ -12,10 +12,12 @@ module.exports = async (bot, interaction) => {
             author: interaction.user
         }
 
+	await interaction.deferReply();
+
     try {
         if (![0, 2].includes(cmd.command.restricted)) {
             logger.warn(`[EVENTS] [MESSAGE] ${message.author.tag} attempted to execute the command ${cmd.command.name}, but it was restricted to message mode`)
-            message.reply({
+            interaction.followUp({
               embeds: [
                 bot.modules.embed.create(message, `Please execute this command as a message with prefix ${bot.config.messageCommands.prefix}.`, "UNAUTHORIZED")
               ]
@@ -34,7 +36,6 @@ module.exports = async (bot, interaction) => {
             if (level >= cmd.command.permlevel) {
                 logger.warn(`[EVENTS] [IC] ${message.author.tag} executed the command ${cmd.command.name}`)
                 try {
-					await interaction.deferReply();
 					await cmd.executeInteraction(bot, interaction)
 				} catch (e) {
 					function genReport() {

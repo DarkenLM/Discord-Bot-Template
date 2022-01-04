@@ -125,10 +125,6 @@ class command extends Command {
                 })
         }
     }
-
-    async executeInteraction(bot, interaction) {
-      interaction.reply({ content: "test interaction reply" })
-    }
 }
 
 module.exports = command

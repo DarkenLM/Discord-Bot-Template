@@ -8,7 +8,7 @@
 
 const db = require('quick.db')
 const sqlite = require('better-sqlite3')
-const _db = new sqlite("./json.sqlite")
+const _db = new sqlite("../../json.sqlite")
 
 const _Module = bot.bases.modules
 const storage = { tables: {} }

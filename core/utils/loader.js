@@ -118,7 +118,7 @@ class Loader {
 				"maintenance": false,
 				"environment": "dev"
 			}
-			if (fs.existsSync('../../config.json')) {
+			if (fs.existsSync(path.join(__dirname, "../../config.json"))) {
 				let config = require('../../config.json')
 
 				for (let [key, value] of Object.entries(defaultConfig)) {

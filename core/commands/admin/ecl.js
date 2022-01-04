@@ -52,12 +52,12 @@ class command extends Command {
     
             if (cmd) {
                 let set = await bot.modules.parsers.ecl.set(cmd.command, value)
-                if (set) interaction.reply({ embeds: [bot.modules.embed.create(pseudoMessage, `Successfully updated the enabled state of ${command} to ${value}.`, 'SUCCESS')], ephemeral: true })
-                else interaction.reply({ embeds: [bot.modules.embed.create(pseudoMessage, `An unexpected error happened while attempting to update the enabled state of ${command}.`, 'ERROR')], ephemeral: true })
-            } else interaction.reply({ embeds: [bot.modules.embed.create(pseudoMessage, `Unexistent command: ${command}.`, 'ERROR')], ephemeral: true })
+                if (set) interaction.followUp({ embeds: [bot.modules.embed.create(pseudoMessage, `Successfully updated the enabled state of ${command} to ${value}.`, 'SUCCESS')], ephemeral: true })
+                else interaction.followUp({ embeds: [bot.modules.embed.create(pseudoMessage, `An unexpected error happened while attempting to update the enabled state of ${command}.`, 'ERROR')], ephemeral: true })
+            } else interaction.followUp({ embeds: [bot.modules.embed.create(pseudoMessage, `Unexistent command: ${command}.`, 'ERROR')], ephemeral: true })
         } catch (e) {
             logger.error(`[CMD] [ADMIN] [ECL] Error while running interaction:`, e)
-            interaction.reply({ embeds: [bot.modules.embed.create(pseudoMessage, `An unexpected error happened while attempting to update the enabled state of ${command}.`, 'ERROR')], ephemeral: true })
+            interaction.followUp({ embeds: [bot.modules.embed.create(pseudoMessage, `An unexpected error happened while attempting to update the enabled state of ${command}.`, 'ERROR')], ephemeral: true })
         }
     }
 }
