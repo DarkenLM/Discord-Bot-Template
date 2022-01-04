@@ -44,12 +44,12 @@
 | v1.0.0  | Available      |
 
 **Notes:**
-- Check regularly the [Releases section]() to keep youself informed about the latest updates.
+- Check regularly the [Releases section](https://github.com/DarkenLM/Discord-Bot-Template/releases) to keep youself informed about the latest updates.
 - Versioning follows the [Semver](https://semver.org/) specification.
 - All versions ending with `-alpha` have no support.
 
 ## Installation
-1. Download the latest [Release]()
+1. Download the latest [Release](https://github.com/DarkenLM/Discord-Bot-Template/releases)
 2. Extract it.
 3. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and grab your bot token.
 4. Open config.json.
@@ -60,7 +60,7 @@
 Documentation is available on [this page](./docs/index.md)
 
 ## Suggestions
-If you have a suggestion for this Template, feel free to open an issue on the [Issues Panel]()
+If you have a suggestion for this Template, feel free to open an issue on the [Issues Panel](https://github.com/DarkenLM/Discord-Bot-Template/issues)
 
 ## Issues
 Before submiting an issue, make sure you've read the [Documentation](./docs/index.md)
